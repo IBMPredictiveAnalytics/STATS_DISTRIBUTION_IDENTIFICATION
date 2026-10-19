@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ************************************************************************
+     Licensed Materials - Property of IBM
+     IBM SPSS Products: Statistics Common
+     (C) Copyright IBM Corp. 2026
+************************************************************************ -->
+<Command xmlns="http://xml.spss.com/spss/extension"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xml.spss.com/spss/extension http://xml.spss.com/spss/extension/SyntaxSchema.xsd"
+         Name="STATS DISTRIBUTION IDENTIFICATION" Language="R" IsArbitrary="No" EndRequired="None">
+    <Subcommand Name="" IsArbitrary="No" Occurrence="Optional">
+        <Parameter Name="VARIABLES" ParameterType="VariableNameList" Occurrence="Required"/>
+        <Parameter Name="GROUPVAR"  ParameterType="VariableName"     Occurrence="Optional"/>
+    </Subcommand>
+    <Subcommand Name="FIT" Occurrence="Optional">
+        <Parameter Name="DISTRIBUTIONS" ParameterType="KeywordList" Occurrence="Optional">
+            <EnumValue>ALL</EnumValue>
+            <EnumValue>NORMAL</EnumValue>
+            <EnumValue>LOGNORMAL</EnumValue>
+            <EnumValue>LOGNORMAL3P</EnumValue>
+            <EnumValue>WEIBULL</EnumValue>
+            <EnumValue>WEIBULL3P</EnumValue>
+            <EnumValue>GAMMA</EnumValue>
+            <EnumValue>GAMMA3P</EnumValue>
+            <EnumValue>EXPONENTIAL</EnumValue>
+            <EnumValue>LOGISTIC</EnumValue>
+            <EnumValue>LOGLOGISTIC</EnumValue>
+            <EnumValue>SEV</EnumValue>
+            <EnumValue>LEV</EnumValue>
+            <EnumValue>INVGAUSS</EnumValue>
+            <EnumValue>JOHNSONSU</EnumValue>
+            <EnumValue>JOHNSONSB</EnumValue>
+            <EnumValue>BETA</EnumValue>
+            <EnumValue>CAUCHY</EnumValue>
+        </Parameter>
+        <Parameter Name="INCLUDE3P" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+        <Parameter Name="ALPHA" ParameterType="Number" Occurrence="Optional"/>
+        <Parameter Name="CRITERION" ParameterType="Keyword" Occurrence="Optional"><EnumValue>COMPOSITE</EnumValue><EnumValue>AD</EnumValue><EnumValue>AIC</EnumValue><EnumValue>BIC</EnumValue></Parameter>
+        <Parameter Name="LOWERBOUND" ParameterType="Number" Occurrence="Optional"/>
+        <Parameter Name="UPPERBOUND" ParameterType="Number" Occurrence="Optional"/>
+    </Subcommand>
+    <Subcommand Name="SPECS" Occurrence="Optional">
+        <Parameter Name="LSL"   ParameterType="Number" Occurrence="Optional"/>
+        <Parameter Name="USL"   ParameterType="Number" Occurrence="Optional"/>
+        <Parameter Name="SIGMA" ParameterType="Number" Occurrence="Optional"/>
+    </Subcommand>
+    <Subcommand Name="OUTPUT" Occurrence="Optional">
+        <Parameter Name="RECOMMEND" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+        <Parameter Name="CHECKS" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+        <Parameter Name="RANKINGS" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+        <Parameter Name="PARAMETERS" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+        <Parameter Name="CONFIDENCE" ParameterType="Number" Occurrence="Optional"/>
+        <Parameter Name="PERCENTILES" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+        <Parameter Name="PCTLIST" ParameterType="NumberList" Occurrence="Optional"/>
+        <Parameter Name="CAPABILITY" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+        <Parameter Name="TRANSFORMS" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+        <Parameter Name="TOP" ParameterType="Integer" Occurrence="Optional"/>
+    </Subcommand>
+    <Subcommand Name="QC" Occurrence="Optional">
+        <Parameter Name="TOLINT" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+        <Parameter Name="COVERAGE" ParameterType="Number" Occurrence="Optional"/>
+        <Parameter Name="TICONF" ParameterType="Number" Occurrence="Optional"/>
+        <Parameter Name="STABILITY" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+        <Parameter Name="NBOOT" ParameterType="Integer" Occurrence="Optional"/>
+        <Parameter Name="POOLTEST" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+        <Parameter Name="CTRLLIMITS" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+        <Parameter Name="OUTLIERS" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+    </Subcommand>
+    <Subcommand Name="SAVE" Occurrence="Optional">
+        <Parameter Name="PROB" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+        <Parameter Name="NSCORE" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+    </Subcommand>
+    <Subcommand Name="CHARTS" Occurrence="Optional">
+        <Parameter Name="PROBPLOTS" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+        <Parameter Name="HISTOGRAM" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+        <Parameter Name="HTML" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+        <Parameter Name="OPENREPORT" ParameterType="Keyword" Occurrence="Optional"><EnumValue>YES</EnumValue><EnumValue>NO</EnumValue></Parameter>
+    </Subcommand>
+    <Subcommand Name="HELP" Occurrence="Optional"/>
+</Command>

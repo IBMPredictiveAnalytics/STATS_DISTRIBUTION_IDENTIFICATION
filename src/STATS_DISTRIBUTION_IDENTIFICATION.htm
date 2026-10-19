@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>STATS DISTRIBUTION IDENTIFICATION</title>
+<style>body{font-family:Segoe UI,Arial,sans-serif;font-size:13px;color:#222;max-width:900px;margin:20px}h1{font-size:20px}h2{font-size:16px;margin-top:22px;border-bottom:1px solid #ddd}
+.screen{font-family:Consolas,monospace;background:#f4f4f4;padding:1px 4px}pre{background:#f4f4f4;padding:8px;font-size:12px}td,th{border:1px solid #ccc;padding:4px 6px;vertical-align:top}table{border-collapse:collapse}</style></head>
+<body>
+<h1>Distribution Identification (STATS DISTRIBUTION IDENTIFICATION)</h1>
+<p>Finds the probability distribution that describes the data. It fits up to 17 distributions by maximum likelihood, ranks them, explains what to do when none fits, and gives ready-to-run syntax for <b>Process Capability Analysis</b> (STATS PROCESS CAPABILITY) with the recommended distribution.</p>
+<p>Menu: <b>Analyze &gt; Quality Control &gt; Distribution Identification</b>. Typical workflow: (1) run this procedure, (2) copy the syntax from the <i>Recommendation</i> table, or choose the distribution under <i>Distribution...</i> in the Process Capability dialog.</p>
+
+<h2>Dialog</h2>
+<p>Move one or more numeric variables to <i>Variables</i>; optionally a <i>Grouping Variable</i> and spec limits. <b>Fit Options...</b>: distributions to fit (keywords separated by spaces, blank = all), 3-parameter distributions, significance level, ranking criterion. <b>Output...</b>: the tables listed below. <b>Quality Tools...</b>: tolerance intervals, recommendation stability, outlier sensitivity, distribution-based control limits and the pooling test. <b>Save...</b>: fitted probability and normal score variables. The Fit Options dialog also takes the physical bounds. <b>Charts...</b>: probability plots, histogram and the HTML report, which opens in the default browser when the procedure finishes. On locked-down computers where SPSS may not start a browser, use OPENREPORT=NO in syntax.</p>
+<h2>Syntax</h2>
+<pre>STATS DISTRIBUTION IDENTIFICATION VARIABLES=varlist [GROUPVAR=var]
+  [/FIT [DISTRIBUTIONS={ALL** | list}] [INCLUDE3P={YES**|NO}] [ALPHA={0.05**|value}]
+        [CRITERION={COMPOSITE**|AD|AIC|BIC}] [LOWERBOUND=value] [UPPERBOUND=value]]
+  [/SPECS [LSL=value] [USL=value] [SIGMA={6**|value}]]
+  [/OUTPUT [RECOMMEND={YES**|NO}] [CHECKS={YES**|NO}] [RANKINGS={YES**|NO}]
+           [PARAMETERS={YES**|NO}] [CONFIDENCE={0.95**|value}]
+           [PERCENTILES={YES**|NO}] [PCTLIST=list] [CAPABILITY={YES**|NO}]
+           [TRANSFORMS={YES**|NO}] [TOP={4**|1-8}]]
+  [/QC [TOLINT={YES**|NO}] [COVERAGE={0.99**|value}] [TICONF={0.95**|value}]
+       [STABILITY={YES**|NO}] [NBOOT={100**|20-2000}] [OUTLIERS={YES**|NO}]
+       [CTRLLIMITS={YES**|NO}] [POOLTEST={YES**|NO}]]
+  [/SAVE [PROB={NO**|YES}] [NSCORE={NO**|YES}]]
+  [/CHARTS [PROBPLOTS={YES**|NO}] [HISTOGRAM={YES**|NO}] [HTML={YES**|NO}] [OPENREPORT={YES**|NO}]]
+  [/HELP]</pre>
+<p>** default. Example:</p>
+<pre>STATS DISTRIBUTION IDENTIFICATION VARIABLES=Rwanda Ethiopia
+  /SPECS LSL=1.255 USL=1.30.</pre>
+
+<h2>Distributions</h2>
+<p>NORMAL, LOGNORMAL, LOGNORMAL3P, WEIBULL, WEIBULL3P, GAMMA, GAMMA3P, EXPONENTIAL, LOGISTIC, LOGLOGISTIC, SEV (smallest extreme value), LEV (largest extreme value), INVGAUSS, JOHNSONSU, JOHNSONSB, BETA (data strictly between 0 and 1) and CAUCHY. Positive-only distributions are fitted only when all values are positive. The 3-parameter versions add a threshold (location) estimated by profile likelihood. The keywords are the same as DISTRIBUTION in STATS PROCESS CAPABILITY (Cauchy is not available there).</p>
+
+<h2>Output</h2>
+<table>
+<tr><th>Table / chart</th><th>What it shows</th></tr>
+<tr><td>Recommendation</td><td>The distribution to use and why, alternatives that also fit, cautions from the data checks, and the STATS PROCESS CAPABILITY syntax. Rules: Normal is preferred when it fits and no distribution is clearly better (ΔAIC ≤ 2); otherwise the best-ranked distribution that passes the Anderson-Darling test; a 3-parameter model is replaced by its 2-parameter version when the likelihood-ratio test shows the threshold is not needed. If nothing fits: Box-Cox or Johnson transformation, empirical percentiles (1000+ values), or a pointer to the data checks.</td></tr>
+<tr><td>Data Checks</td><td>Sample size; measurement resolution (many ties make the AD test reject every distribution); skewness and kurtosis; bimodality coefficient (above 0.555 suggests a mixture of processes); stability in data order (runs test and first-half vs second-half test, both distribution-free); outliers (generalized ESD).</td></tr>
+<tr><td>Goodness of Fit</td><td>Anderson-Darling statistic and p-value, Pass/Fail at ALPHA, likelihood-ratio test of 3P vs 2P, AIC, ΔAIC, Akaike weight (probability that the model is the best of those fitted), BIC, and the matching DISTRIBUTION keyword.</td></tr>
+<tr><td>Parameter Estimates</td><td>Maximum likelihood estimates with standard errors and Wald intervals (log scale for positive parameters) at CONFIDENCE.</td></tr>
+<tr><td>Percentiles</td><td>Fitted percentiles (PCTLIST, in percent) of the TOP distributions beside the empirical percentiles.</td></tr>
+<tr><td>Capability by Distribution</td><td>With LSL and/or USL: Pp, PPL, PPU, Ppk (ISO 22514-4 percentile method), expected PPM and Z-Bench for every distribution, plus how much Ppk varies among the distributions that fit.</td></tr>
+<tr><td>Normalizing Transformations</td><td>AD normality p-value after log, Box-Cox (λ with confidence interval) and the best Johnson transformation, with the matching Process Capability option.</td></tr>
+<tr><td>Charts</td><td>Probability plots of the TOP distributions and a histogram with the three best fits (bin edges on the spec limits). The interactive HTML report (Documents\SPSS_Distribution_Reports) adds a fit leaderboard with Akaike weights; titles and axis labels can be edited before downloading.</td></tr>
+<tr><td>Tolerance Intervals</td><td>Two-sided interval expected to contain at least COVERAGE of the process output with TICONF confidence: normal (Howe), the recommended distribution (fitted percentiles calibrated by parametric bootstrap; Box-Cox: normal interval transformed back; none for a Johnson transformation) and distribution-free (order statistics; the table says how many values it needs when n is too small).</td></tr>
+<tr><td>Recommendation Stability</td><td>The data are resampled NBOOT times; every fitted distribution is refitted (thresholds and bounds held fixed) and the recommendation rules applied each time. Shows how often each distribution is recommended, how often it fits, and how often no distribution fits. "Uncertain" means the data cannot separate the leading distributions: choose by engineering knowledge and check that capability does not depend on the choice.</td></tr>
+<tr><td>Control Limits for Individual Values</td><td>Normal-theory I-chart limits (mean ± 2.66 MR-bar) beside limits at the 0.135%, 50% and 99.865% points of the recommended distribution, with points outside and the false-alarm rate the normal limits would have under the fitted distribution. An individuals chart shows both.</td></tr>
+<tr><td>Outlier Sensitivity</td><td>When the generalized ESD test finds outliers: the recommendation, AD p, 0.135% / 99.865% points and Ppk with and without them.</td></tr>
+<tr><td>Can the Groups Be Pooled?</td><td>With GROUPVAR: k-sample Anderson-Darling test (Scholz and Stephens) of whether all groups come from the same distribution, with a permutation p-value. It compares the whole shape, not only the means.</td></tr>
+<tr><td>Saved variables</td><td>/SAVE PROB=YES adds &lt;variable&gt;_prob, the fitted cumulative probability; NSCORE=YES adds &lt;variable&gt;_nscore, the normal score (standard normal if the distribution is right), for Control Charts and other normal-theory procedures. Computed with COMPUTE syntax (shown in the output) from the recommended distribution, per group when GROUPVAR is used.</td></tr>
+<tr><td>Summary</td><td>With several variables or groups: the recommended distribution for each.</td></tr>
+</table>
+
+<h2>Physical bounds</h2>
+<p>Many quality characteristics cannot go below a natural limit: flatness, roundness, runout, impurity and leak rate cannot be negative. With LOWERBOUND (and/or UPPERBOUND) the positive distributions are fitted to the distance from the bound, which is the right model for such data; the 3-parameter versions are not fitted, because the threshold is known. Unbounded distributions are still fitted, but not recommended when they put more than 0.135% beyond the bound. A spec limit at or beyond the bound has no capability on that side. The recommended Process Capability syntax then includes a COMPUTE that creates the shifted variable (not needed for a lower bound of 0).</p>
+<h2>Split File and weights</h2>
+<p>Split File groups are analysed separately, like GROUPVAR groups. A weight variable is used as a frequency weight (rounded) for the fits and percentiles; the stability check and the control limits use the unweighted values in data order.</p>
+<h2>Notes</h2>
+<p>A distribution must fit <i>and</i> make sense for how the data arise (for example Weibull for strength or time to failure, Lognormal for multiplicative effects). Fit tests are sensitive with large samples and weak with small ones: look at the probability plots. GROUPVAR fits each group separately; different recommendations across groups suggest they are different processes and should not be pooled.</p>
+<p>The fitting code is shared with STATS PROCESS CAPABILITY, so both procedures give identical fits.</p>
+</body></html>

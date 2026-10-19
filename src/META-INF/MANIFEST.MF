@@ -1,0 +1,25 @@
+Name: STATS DISTRIBUTION IDENTIFICATION
+Display-Name: Distribution Identification
+Dialog-Specs: STATS_DISTRIBUTION_IDENTIFICATION.cfe,STATS_DISTRIBUTION_I
+ DENTIFICATION.spd
+Command-Specs: STATS_DISTRIBUTION_IDENTIFICATION.xml
+Code-Files: STATS_DISTRIBUTION_IDENTIFICATION.R
+Misc-Files: STATS_DISTRIBUTION_IDENTIFICATION.htm
+Summary: Identify the distribution of the data, with quality-control too
+ ls and ready-to-run Process Capability syntax
+Description: Fits up to 17 distributions by maximum likelihood and repor
+ ts goodness of fit (Anderson-Darling, likelihood-ratio tests, AIC, Akai
+ ke weights, BIC), parameter estimates, percentiles, capability by distr
+ ibution, normalizing transformations, data checks and a recommendation 
+ with STATS PROCESS CAPABILITY syntax. Quality-control tools: physical b
+ ounds, tolerance intervals, recommendation stability (bootstrap), outli
+ er sensitivity, distribution-based control limits, k-sample pooling tes
+ t, and saved probabilities and normal scores. Honours Split File and we
+ ights. Menu: Analyze > Quality Control > Distribution Identification.
+Author: Aruna Saraswathy
+Version: 1.1.0
+Product-Version: 24
+Date: 2026-10-19
+Plugins: R
+R-Packages: nortest,jsonlite,plotly
+Translation-Catalogues: STATS_DISTRIBUTION_IDENTIFICATION
